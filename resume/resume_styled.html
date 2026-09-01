@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ishaan Gupta - Resume</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.5in;
+    }
+    body {
+      font-family: 'Calibri', 'Arial', sans-serif;
+      color: #111;
+      line-height: 1.35;
+      font-size: 10.5pt;
+      margin: 0;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 18pt;
+      margin: 0 0 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .contact-info {
+      font-size: 9.5pt;
+      color: #333;
+    }
+    .contact-info a {
+      color: #111;
+      text-decoration: none;
+    }
+    h2 {
+      font-size: 11pt;
+      text-transform: UPPERCASE;
+      border-bottom: 1px solid #111;
+      margin: 12px 0 6px 0;
+      padding-bottom: 2px;
+      letter-spacing: 0.5px;
+    }
+    .edu-item, .project-item {
+      margin-bottom: 8px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .title {
+      font-weight: bold;
+    }
+    .subtitle {
+      font-style: italic;
+    }
+    .link {
+      font-style: italic;
+      font-size: 9.5pt;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    ul {
+      margin: 3px 0 6px 18px;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 2px;
+    }
+    .skills-list p {
+      margin: 3px 0;
+    }
+    @media print {
+      body { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Ishaan Gupta</h1>
+    <div class="contact-info">
+      guptaishaan361@gmail.com &nbsp;|&nbsp; +91-9264955782 &nbsp;|&nbsp; Lucknow, India &nbsp;|&nbsp; 
+      <a href="https://github.com/Ishaan012846">GitHub</a> &nbsp;|&nbsp; LinkedIn &nbsp;|&nbsp; LeetCode
+    </div>
+  </div>
+
+  <h2>EDUCATION</h2>
+  <div class="edu-item">
+    <div class="row">
+      <span class="title">DIT University</span>
+      <span>Dehradun, Uttarakhand</span>
+    </div>
+    <div class="row">
+      <span class="subtitle">B.Tech in Computer Science - CGPA: 6.17</span>
+      <span>July 2023 - July 2027</span>
+    </div>
+  </div>
+
+  <div class="edu-item">
+    <div class="row">
+      <span class="title">Red Rose Senior Secondary School</span>
+      <span>Lucknow, Uttar Pradesh</span>
+    </div>
+    <div class="row">
+      <span class="subtitle">Class XII - 81%</span>
+      <span>July 2020 - July 2022</span>
+    </div>
+  </div>
+
+  <div class="edu-item">
+    <div class="row">
+      <span class="title">City Montessori School</span>
+      <span>Lucknow, Uttar Pradesh</span>
+    </div>
+    <div class="row">
+      <span class="subtitle">Class X - 84%</span>
+      <span>Completed July 2020</span>
+    </div>
+  </div>
+
+  <h2>PROFESSIONAL SUMMARY</h2>
+  <p style="margin: 3px 0;">
+    B.Tech Computer Science student specializing in Software Engineering, Cybersecurity & AI Systems. Skilled in Java, Python, Web VAPT, Data Structures & Algorithms, SQL, and MLOps. Built high-impact projects including an automated Web Application VAPT Lab, a Corrective RAG (CRAG) pipeline, and an Enterprise AI Operations platform. Proven leadership managing large-scale university events.
+  </p>
+
+  <h2>SKILLS</h2>
+  <div class="skills-list">
+    <p><strong>Programming Languages:</strong> C, Python, Java, JavaScript, HTML5, CSS3, SQL</p>
+    <p><strong>Libraries / Frameworks:</strong> LangChain, FastAPI, ChromaDB, PyTorch, OpenCV, NumPy, MediaPipe, Java Swing</p>
+    <p><strong>Security & MLOps Tools:</strong> OWASP ZAP, Nmap, Burp Suite, Docker, Kubernetes, Prometheus, Grafana, MLflow, Git, GitHub, VS Code, IntelliJ IDEA</p>
+    <p><strong>Databases & Security Concepts:</strong> MySQL, RESTful APIs, OOP, Data Structures & Algorithms (DSA), Multithreading, Web Application VAPT, OWASP Top 10, CVSS v3.1</p>
+  </div>
+
+  <h2>PROJECTS</h2>
+
+  <div class="project-item">
+    <div class="row">
+      <span class="title">Web Application VAPT Lab & Security Assessment</span>
+      <span class="subtitle">Python, Docker, OWASP ZAP, Nmap, Burp Suite, HTML/CSS/JS</span>
+    </div>
+    <div class="link">github.com/Ishaan012846/web-vapt-lab</div>
+    <ul>
+      <li>Engineered an isolated local VAPT laboratory containerizing OWASP Juice Shop (127.0.0.1:3000), implementing Python scope-validation modules to strictly enforce loopback allowlists.</li>
+      <li>Automated service version enumeration (Nmap) and passive vulnerability scanning (OWASP ZAP baseline), normalizing findings into standardized JSON schema definitions.</li>
+      <li>Conducted manual security assessments via Burp Suite to validate SQL Injection, XSS, and IDOR vulnerabilities, generating Markdown reports and a responsive static HTML metrics dashboard.</li>
+    </ul>
+  </div>
+
+  <div class="project-item">
+    <div class="row">
+      <span class="title">Corrective RAG (CRAG) System</span>
+      <span class="subtitle">Python, LangChain, OpenAI API, ChromaDB, FastAPI</span>
+    </div>
+    <div class="link">github.com/Ishaan012846/crag-ai-system</div>
+    <ul>
+      <li>Engineered a Corrective Retrieval-Augmented Generation (CRAG) pipeline, reducing LLM hallucination rates by 35% via dynamic relevancy scoring.</li>
+      <li>Implemented query re-writing algorithms and hallucination detection with automated Tavily web search fallbacks, boosting factual accuracy to 92%.</li>
+      <li>Utilized ChromaDB vector embeddings and LangChain framework to orchestrate self-corrective retrieval workflows processing 50+ queries/min.</li>
+    </ul>
+  </div>
+
+  <div class="project-item">
+    <div class="row">
+      <span class="title">Enterprise AI Operations Platform</span>
+      <span class="subtitle">Python, FastAPI, Docker, Kubernetes, Prometheus, MLflow</span>
+    </div>
+    <div class="link">github.com/Ishaan012846/enterprise-ai-ops</div>
+    <ul>
+      <li>Developed an end-to-end Enterprise AI Operations (AIOps/MLOps) platform to monitor, auto-scale, and manage 10+ production ML microservices.</li>
+      <li>Integrated real-time telemetry, latency monitoring, and token usage tracking via Prometheus and Grafana dashboards, maintaining 99.9% uptime.</li>
+      <li>Containerized microservices using Docker and orchestrated Kubernetes deployments with API gateway security, cutting deployment overhead by 40%.</li>
+    </ul>
+  </div>
+
+  <h2>POSITIONS OF RESPONSIBILITY & ACHIEVEMENTS</h2>
+  <ul>
+    <li><strong>Overall Coordinator - Avahan 2024:</strong> Managed end-to-end operations, crowd logistics, budgeting, and a committee of 40+ student volunteers for DIT University annual freshman program, serving 3,000+ incoming students.</li>
+    <li>Solved 120+ Data Structures & Algorithms (DSA) problems on LeetCode using Java.</li>
+  </ul>
+
+  <h2>CERTIFICATIONS</h2>
+  <ul>
+    <li>Java (Basic) – HackerRank</li>
+    <li>Problem Solving (Basic) – HackerRank</li>
+    <li>SQL (Basic) – HackerRank</li>
+    <li>OCI AI Foundations – Oracle</li>
+  </ul>
+
+</body>
+</html>
