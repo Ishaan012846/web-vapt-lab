@@ -1,0 +1,25 @@
+# Environment & Python
+.venv/
+venv/
+ENV/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Scan outputs & raw evidence (contain execution output)
+output/
+reports/generated/
+*.log
+*.tmp
+
+# Sensitive data / Session tokens / Captures
+evidence/*.pcap
+evidence/*.burp
+evidence/tokens.txt
+evidence/credentials.txt
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

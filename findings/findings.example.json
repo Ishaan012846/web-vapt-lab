@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "assessment_title": "OWASP Juice Shop Local VAPT Lab Assessment",
+    "target_url": "http://127.0.0.1:3000",
+    "generated_at": "2026-09-01T11:00:00Z",
+    "tester": "Lead Security Auditor (Fictional Lab Demonstration)",
+    "total_findings": 7
+  },
+  "findings": [
+    {
+      "id": "VAPT-2026-001",
+      "title": "SQL Injection in User Authentication Endpoint",
+      "description": "The email input field on the login endpoint (/rest/user/login) fails to sanitize SQL metacharacters, allowing arbitrary SQL command execution and authentication bypass.",
+      "affected_component": "POST /rest/user/login (Email Field)",
+      "discovery_source": "Manual Burp Suite",
+      "validation_status": "confirmed",
+      "evidence": "Payload: ' OR 1=1-- submitted in email field returned HTTP 200 OK with admin session token.",
+      "reproduction_steps": "1. Navigate to http://127.0.0.1:3000/#/login\n2. Intercept login POST request in Burp Suite.\n3. Replace email with `' OR 1=1--` and password with `password`.\n4. Observe successful authentication as Administrator.",
+      "impact": "Complete compromise of backend database confidentiality and authentication bypass.",
+      "likelihood": "High",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "cvss_score": 9.8,
+      "severity": "Critical",
+      "cwe_id": "CWE-89",
+      "owasp_category": "A03:2021-Injection",
+      "remediation": "Use parameterized SQL queries (Prepared Statements) or an ORM with proper parameter binding instead of string concatenation.",
+      "references": [
+        "https://owasp.org/Top10/A03_2021-Injection/",
+        "https://cwe.mitre.org/data/definitions/89.html"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "Verified manually via Burp Suite request repeater."
+    },
+    {
+      "id": "VAPT-2026-002",
+      "title": "Reflected Cross-Site Scripting (XSS) in Product Search",
+      "description": "The search parameter on the main page reflects user input directly into the DOM context without proper HTML entity encoding.",
+      "affected_component": "GET /#/search?q= (Search Input)",
+      "discovery_source": "Manual Burp Suite",
+      "validation_status": "confirmed",
+      "evidence": "URL parameter `q=<iframe src=\"javascript:alert(1)\">` triggers script execution in user browser context.",
+      "reproduction_steps": "1. Access `http://127.0.0.1:3000/#/search?q=<iframe src=\"javascript:alert(1)\">`\n2. Observe JavaScript execution pop-up.",
+      "impact": "Attacker can execute arbitrary JavaScript in the victim's session context, potentially stealing session tokens or hijacking user actions.",
+      "likelihood": "High",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+      "cvss_score": 6.1,
+      "severity": "Medium",
+      "cwe_id": "CWE-79",
+      "owasp_category": "A03:2021-Injection",
+      "remediation": "Contextually encode all user-supplied data rendered in the DOM using Angular DOMSanitizer or secure framework encoding.",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "DOM-based XSS confirmed in search component."
+    },
+    {
+      "id": "VAPT-2026-003",
+      "title": "Insecure Direct Object Reference (IDOR) in Shopping Basket API",
+      "description": "The GET /rest/basket/{BasketID} API endpoint relies solely on the path parameter without enforcing that the requested basket belongs to the authenticated user.",
+      "affected_component": "GET /rest/basket/{id}",
+      "discovery_source": "Manual Burp Suite",
+      "validation_status": "confirmed",
+      "evidence": "Authenticated User A (Basket 1) fetched GET /rest/basket/2 and received User B's cart contents and address details.",
+      "reproduction_steps": "1. Log in as User A and capture GET /rest/basket/1.\n2. Modify path parameter to GET /rest/basket/2.\n3. Server returns HTTP 200 OK containing User B's private cart data.",
+      "impact": "Unauthorized access to other users' sensitive cart and shipping information.",
+      "likelihood": "High",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+      "cvss_score": 6.5,
+      "severity": "Medium",
+      "cwe_id": "CWE-639",
+      "owasp_category": "A01:2021-Broken Access Control",
+      "remediation": "Implement session-based authorization checks to verify that the requested resource ID belongs to the authenticated user token.",
+      "references": [
+        "https://owasp.org/Top10/A01_2021-Broken_Access_Control/"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "IDOR validated across multiple basket IDs."
+    },
+    {
+      "id": "VAPT-2026-004",
+      "title": "Absence of Anti-CSRF Protections on State-Changing API Endpoints",
+      "description": "State-changing operations (such as updating profile details) rely on standard cookies without validating Anti-CSRF tokens or SameSite cookie attributes.",
+      "affected_component": "POST /api/Users/",
+      "discovery_source": "Automated ZAP",
+      "validation_status": "confirmed",
+      "evidence": "Automated form submissions do not validate anti-CSRF headers.",
+      "reproduction_steps": "1. Host a cross-origin form submitting to http://127.0.0.1:3000/api/Users/\n2. Submit form from authenticated browser.\n3. Request executes with victim session cookies.",
+      "impact": "Attacker can trick authenticated users into performing unintended actions.",
+      "likelihood": "Medium",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:M/A:N",
+      "cvss_score": 4.3,
+      "severity": "Medium",
+      "cwe_id": "CWE-352",
+      "owasp_category": "A01:2021-Broken Access Control",
+      "remediation": "Implement Anti-CSRF tokens (Custom Request Headers) or set SameSite=Strict / Lax on session cookies.",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "Flagged by ZAP passive baseline scan."
+    },
+    {
+      "id": "VAPT-2026-005",
+      "title": "Missing HTTP Security Headers (Content-Security-Policy & HSTS)",
+      "description": "HTTP response headers lack security baseline hardening such as Content-Security-Policy (CSP), Strict-Transport-Security, and X-Content-Type-Options.",
+      "affected_component": "HTTP Response Headers (Global)",
+      "discovery_source": "Automated ZAP",
+      "validation_status": "confirmed",
+      "evidence": "Response header inspection confirms absence of CSP and HSTS headers.",
+      "reproduction_steps": "1. Inspect HTTP response headers via browser network tab or curl.\n2. Confirm absence of Content-Security-Policy header.",
+      "impact": "Increases susceptibility to XSS, clickjacking, and MIME-sniffing attacks.",
+      "likelihood": "Low",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+      "cvss_score": 3.7,
+      "severity": "Low",
+      "cwe_id": "CWE-693",
+      "owasp_category": "A05:2021-Security Misconfiguration",
+      "remediation": "Configure web server/middleware to send Content-Security-Policy, X-Content-Type-Options: nosniff, and X-Frame-Options: DENY.",
+      "references": [
+        "https://owasp.org/www-project-secure-headers/"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "Passive ZAP finding."
+    },
+    {
+      "id": "VAPT-2026-006",
+      "title": "Verbose Stack Trace Disclosure on Malformed API Query",
+      "description": "Sending invalid data types to internal Node.js/Express API routes yields uncaught exception stack traces disclosing internal server file paths.",
+      "affected_component": "GET /rest/products/search?q=invalid'",
+      "discovery_source": "Manual Burp Suite",
+      "validation_status": "confirmed",
+      "evidence": "Server responded with HTTP 500 containing Sequelize database error and internal file paths (/app/routes/search.js).",
+      "reproduction_steps": "1. Send GET request to `/rest/products/search?q='`\n2. Observe full JavaScript stack trace in response body.",
+      "impact": "Exposes technical stack details aiding attacker reconnaissance.",
+      "likelihood": "Low",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "cvss_score": 2.6,
+      "severity": "Low",
+      "cwe_id": "CWE-209",
+      "owasp_category": "A04:2021-Insecure Design",
+      "remediation": "Disable detailed error messages in production environment (NODE_ENV=production) and implement generic global error handlers.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/209.html"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "Information leakage via error page."
+    },
+    {
+      "id": "VAPT-2026-007",
+      "title": "Vulnerable Outdated Components in Node/Angular Stack",
+      "description": "Application bundles third-party frontend and backend npm packages containing publicly disclosed CVE vulnerabilities.",
+      "affected_component": "npm dependencies (package.json)",
+      "discovery_source": "Automated Nmap",
+      "validation_status": "unverified",
+      "evidence": "Juice Shop version 16.0.0 uses legacy component bundles for educational training.",
+      "reproduction_steps": "1. Run npm audit against application source.\n2. Review list of vulnerable sub-dependencies.",
+      "impact": "Vulnerabilities in underlying libraries may allow remote code execution or client-side compromise.",
+      "likelihood": "Medium",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+      "cvss_score": 5.6,
+      "severity": "Medium",
+      "cwe_id": "CWE-1104",
+      "owasp_category": "A06:2021-Vulnerable and Outdated Components",
+      "remediation": "Regularly audit third-party packages using npm audit and update libraries to secure maintained versions.",
+      "references": [
+        "https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/"
+      ],
+      "retest_status": "not_tested",
+      "tester_notes": "Flags known vulnerable dependencies in Juice Shop lab container."
+    }
+  ]
+}

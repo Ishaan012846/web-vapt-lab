@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAPT Security Assessment Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Header / Banner -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-branding">
+        <span class="header-badge">AUTHORIZED LAB ONLY</span>
+        <h1>Web Application VAPT Assessment Dashboard</h1>
+        <p class="target-info">Target Scope: <strong id="target-scope">http://127.0.0.1:3000</strong> | OWASP Juice Shop</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="window.print()">Print Report</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <!-- Assessment Metadata & Key Metrics -->
+    <section class="metrics-grid">
+      <div class="metric-card total-card">
+        <div class="metric-label">Total Findings</div>
+        <div class="metric-value" id="metric-total">0</div>
+        <div class="metric-sub">Normalized VAPT Items</div>
+      </div>
+      <div class="metric-card sev-critical">
+        <div class="metric-label">Critical</div>
+        <div class="metric-value" id="metric-critical">0</div>
+        <div class="metric-sub">CVSS 9.0 - 10.0</div>
+      </div>
+      <div class="metric-card sev-high">
+        <div class="metric-label">High</div>
+        <div class="metric-value" id="metric-high">0</div>
+        <div class="metric-sub">CVSS 7.0 - 8.9</div>
+      </div>
+      <div class="metric-card sev-medium">
+        <div class="metric-label">Medium</div>
+        <div class="metric-value" id="metric-medium">0</div>
+        <div class="metric-sub">CVSS 4.0 - 6.9</div>
+      </div>
+      <div class="metric-card sev-low">
+        <div class="metric-label">Low / Info</div>
+        <div class="metric-value" id="metric-low">0</div>
+        <div class="metric-sub">CVSS 0.0 - 3.9</div>
+      </div>
+    </section>
+
+    <!-- Controls / Filters -->
+    <section class="controls-panel">
+      <div class="search-box">
+        <label for="search-input" class="sr-only">Search findings</label>
+        <input type="text" id="search-input" placeholder="Search by title, CWE, component, or keyword..." />
+      </div>
+      
+      <div class="filter-group">
+        <span class="filter-label">Severity Filter:</span>
+        <button class="filter-btn active" data-severity="all">All</button>
+        <button class="filter-btn" data-severity="Critical">Critical</button>
+        <button class="filter-btn" data-severity="High">High</button>
+        <button class="filter-btn" data-severity="Medium">Medium</button>
+        <button class="filter-btn" data-severity="Low">Low</button>
+      </div>
+    </section>
+
+    <!-- Findings List Section -->
+    <section class="findings-section">
+      <div class="section-header">
+        <h2>Technical Findings Detail (<span id="visible-count">0</span>)</h2>
+      </div>
+
+      <div id="findings-container" class="findings-container">
+        <!-- Finding items will be dynamically injected here -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p>Web Application VAPT Lab & Security Assessment | Local Isolated Laboratory</p>
+      <p>Strictly for Educational Use on 127.0.0.1</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

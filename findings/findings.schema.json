@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VAPT Findings List Schema",
+  "type": "object",
+  "required": ["metadata", "findings"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["assessment_title", "target_url", "generated_at", "total_findings"],
+      "properties": {
+        "assessment_title": { "type": "string" },
+        "target_url": { "type": "string" },
+        "generated_at": { "type": "string" },
+        "tester": { "type": "string" },
+        "total_findings": { "type": "integer" }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "affected_component",
+          "discovery_source",
+          "validation_status",
+          "evidence",
+          "reproduction_steps",
+          "impact",
+          "likelihood",
+          "cvss_vector",
+          "cvss_score",
+          "severity",
+          "cwe_id",
+          "owasp_category",
+          "remediation",
+          "references",
+          "retest_status",
+          "tester_notes"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^VAPT-\\d{4}-\\d{3,}$" },
+          "title": { "type": "string", "minLength": 5 },
+          "description": { "type": "string" },
+          "affected_component": { "type": "string" },
+          "discovery_source": { "type": "string", "enum": ["Automated Nmap", "Automated ZAP", "Manual Burp Suite", "Code Review"] },
+          "validation_status": { "type": "string", "enum": ["unverified", "confirmed", "false_positive", "fixed"] },
+          "evidence": { "type": "string" },
+          "reproduction_steps": { "type": "string" },
+          "impact": { "type": "string" },
+          "likelihood": { "type": "string", "enum": ["High", "Medium", "Low"] },
+          "cvss_vector": { "type": "string" },
+          "cvss_score": { "type": "number", "minimum": 0.0, "maximum": 10.0 },
+          "severity": { "type": "string", "enum": ["Critical", "High", "Medium", "Low", "Informational"] },
+          "cwe_id": { "type": "string" },
+          "owasp_category": { "type": "string" },
+          "remediation": { "type": "string" },
+          "references": { "type": "array", "items": { "type": "string" } },
+          "retest_status": { "type": "string", "enum": ["not_tested", "passed", "failed"] },
+          "tester_notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

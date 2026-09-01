@@ -1,0 +1,32 @@
+version: '3.8'
+
+# OWASP Juice Shop Local VAPT Target
+# WARNING: This application is intentionally vulnerable.
+# It is configured to bind STRICTLY to loopback (127.0.0.1) to prevent external exposure.
+
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:v16.0.0
+    container_name: vapt_juice_shop
+    restart: unless-stopped
+    ports:
+      # Explicitly bind to 127.0.0.1 to block remote/public access
+      - "127.0.0.1:3000:3000"
+    environment:
+      - NODE_ENV=unsafe
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "node -e 'require(\"http\").get(\"http://localhost:3000/\", (res) => res.statusCode === 200 ? process.exit(0) : process.exit(1))'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    security_opt:
+      - no-new-privileges:true

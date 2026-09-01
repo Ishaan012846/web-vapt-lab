@@ -1,0 +1,41 @@
+# Authorized Scope and Rules of Engagement Configuration
+# Every automated script MUST validate targets against this allowlist.
+
+target:
+  name: "OWASP Juice Shop Local Lab"
+  base_url: "http://127.0.0.1:3000"
+  allowed_hosts:
+    - "127.0.0.1"
+    - "localhost"
+  allowed_ports:
+    - 3000
+  protocol: "http"
+
+assessment_metadata:
+  tester_name: "Lead Security Auditor (VAPT Lab Operator)"
+  organization: "Internal Security Assessment"
+  start_date: "2026-09-01T00:00:00Z"
+  end_date: "2026-12-31T23:59:59Z"
+  environment: "Local Isolated Docker Environment"
+
+execution_limits:
+  max_requests_per_second: 10
+  timeout_seconds: 30
+  allow_concurrent_scans: false
+
+rules_of_engagement:
+  prohibited_targets:
+    - "0.0.0.0/0 (all external IP addresses)"
+    - "public internet endpoints"
+    - "local subnet devices outside 127.0.0.1"
+  forbidden_activities:
+    - "Denial of Service (DoS / DDoS)"
+    - "Automated brute-force credential stuffing"
+    - "Destructive data updates/deletions on external systems"
+    - "Persistence, rootkits, malware drop"
+    - "Exfiltration of non-lab sensitive data"
+  authorized_activities:
+    - "Automated passive web application scanning (ZAP baseline)"
+    - "Local service/port version enumeration (Nmap)"
+    - "Manual application security testing (SQLi, XSS, BAC, CSRF)"
+    - "CVSS v3.1 scoring & vulnerability reporting"
